@@ -1,3 +1,10 @@
+// Student: Matthew Peach
+// Program Status: Complete
+// Description:
+//   This program asks for the name of a very simple data-set (just a list of integers) and the
+// number of data points that the user has. The name and number of data points are passed into a
+// constructor and an array is dynamically allocated based on the number of data points. The object can
+// display the elements sorted from least to greatest and the average of the data.
 
 #include "Functions_Movies_Watched.h"
 #include <iostream>
@@ -30,17 +37,14 @@ public:
                 getline(cin, userInput);
                 cin.clear();
                 validDataPoint = posIntegerConvert(userInput);
-            }while(validDataPoint <= 0);
+            }while(validDataPoint < 0);
             ptr_to_data[i] = validDataPoint; // Validated input put into the array
         }
     }
-
     void sortData();
     void displayData();
     void dataMenu();
     void getMean();
-
-    
 };
 
 
@@ -68,7 +72,7 @@ int main(){
              << "Number of data-points: ";
         getline(cin, unvalidatedNum);
         validatedNum = posIntegerConvert(unvalidatedNum);
-    }while(validatedNum < 0);
+    }while(validatedNum <= 0);
     // ===================================
     // | End of Data-Point Input         |
     // ===================================
