@@ -1,0 +1,6 @@
+.idea/
+*.log/
+x64/
+Lab10B.sln
+Lab10B.vcxproj
+Lab10B.vcxproj.filters
