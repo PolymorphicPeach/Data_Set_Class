@@ -30,7 +30,7 @@ public:
                 getline(cin, userInput);
                 cin.clear();
                 validDataPoint = posIntegerConvert(userInput);
-            }while(validDataPoint < 0);
+            }while(validDataPoint <= 0);
             ptr_to_data[i] = validDataPoint; // Validated input put into the array
         }
     }
@@ -38,6 +38,7 @@ public:
     void sortData();
     void displayData();
     void dataMenu();
+    void getMean();
 
     
 };
@@ -76,7 +77,10 @@ int main(){
     Data_Set *Data = new Data_Set(dataName, validatedNum);
     Data->sortData(); // Going ahead and sorting the data - I thought about making it a user option, but
                       // I was only going to give one sorting option, so I'll just do it automatically
-    Data->displayData();
+
+
+    Data->dataMenu();
+    
     
     return 0;
 }
@@ -87,9 +91,9 @@ void Data_Set::sortData() {
         int temp {-1};
 
         if(ptr_to_data[i] > ptr_to_data[i+1]){
-            temp = ptr_to_data[i];
-            ptr_to_data[i] = ptr_to_data[i+1];
-            ptr_to_data[i+1] = temp;
+            temp = *(ptr_to_data + i);
+            *(ptr_to_data + i) = *(ptr_to_data + i + 1);
+            *(ptr_to_data + i + 1) = temp;
             arraySorted = false;
         }
         if(!arraySorted){
@@ -105,7 +109,7 @@ void Data_Set::displayData() {
          << "==========================" << endl;
     
     for(int i = 0; i < numElements; i++){
-        cout << ptr_to_data[i] << endl;
+        cout << *(ptr_to_data + i) << endl;
         if(i == numElements - 1){
             cout << "==========================" << endl;
         }
@@ -115,20 +119,50 @@ void Data_Set::displayData() {
 
 void Data_Set::dataMenu() {
     string userSelection {"Unknown"};
-
+    bool exit {false};
+    
     do{
         cout << endl
              << "============================================" << endl
              << "| Choose an option below by selecting the  |" << endl
              << "|  corresponding number.                   |" << endl
              << "============================================" << endl
-             << "| 1.) Display Mean                         |" << endl
-             << "| 2.) Display Median                       |" << endl
-             << "| 3.) Display Mode                         |" << endl
-             << "| 4.) End Program                          |" << endl
+             << "| 1.) Display Data                         |" << endl
+             << "| 2.) Display Mean                         |" << endl
+             << "| 3.) End Program                          |" << endl
              << "============================================" << endl
              << "My Selection: ";
         getline(cin, userSelection);
-    }while(userSelection != "1" && userSelection != "2" && userSelection != "3" && userSelection != "4");
+    }while(userSelection != "1" && userSelection != "2" && userSelection != "3");
+
+    if(userSelection == "1"){
+        displayData();
+    }
+    else if(userSelection == "2"){
+        getMean();
+    }
+    else if(userSelection == "3"){
+        exit = true;
+    }
+    
+    if(exit == false){
+        dataMenu();    
+    }
+    
+}
+
+void Data_Set::getMean() {
+    double dataMean {-1.00};
+    double dataSum {0};
+
+    // Sum the data
+    for (int i = 0; i < numElements; i++){
+        dataSum += *(ptr_to_data + i);
+    }
+    dataMean = dataSum/ static_cast<double> (numElements);
+
+    displayData();
+    cout << "Mean: " << dataMean << endl
+         << "==========================" << endl;
     
 }
